@@ -74,6 +74,9 @@
 {
 
     NSLog(@"didSelectRowAtIndexPath: %@", self.data[indexPath.row]);
+	
+	UIViewController *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"test"];
+	[self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - STZPullToRefreshDelegate
