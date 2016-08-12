@@ -11,6 +11,8 @@
 @property (nonatomic, assign, readwrite) BOOL isRefreshing;
 @property (nonatomic, strong) UIView *refreshBarView;
 @property (nonatomic, strong) NSMutableArray *refreshIndicators;
+@property () BOOL isAnimationInProcess;
+
 @end
 
 @implementation STZPullToRefreshView
@@ -45,6 +47,7 @@
 - (void)startRefresh
 {
     self.isRefreshing = YES;
+	self.isAnimationInProcess = YES;
 
     [self setRefreshBarProgress:0];
 
@@ -61,6 +64,9 @@
             frame.origin.x = self.frame.size.width;
             indicator.frame = frame;
         } completion:^(BOOL finished) {
+			self.isAnimationInProcess = NO;
+			// we call setNeedsDisplay in order to check and restart animation in drawRect when view will be presented if it was stopped because hosting view controller was disappeared.
+			[self setNeedsDisplay];
         }];
 
         [self addSubview:indicator];
@@ -74,12 +80,23 @@
 - (void)finishRefresh
 {
     self.isRefreshing = NO;
+	self.isAnimationInProcess = NO;
 
     self.backgroundColor = [UIColor clearColor];
     [self.refreshIndicators enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [(UIView *)obj removeFromSuperview];
     }];
     [self.refreshIndicators removeAllObjects];
+}
+
+- (void)drawRect:(CGRect)rect {
+	[super drawRect:rect];
+	
+	// restart animation if it was stopped because hosting view controller was disappeared.
+	if (self.isRefreshing && !self.isAnimationInProcess) {
+		[self finishRefresh];
+		[self startRefresh];
+	}
 }
 
 @end
