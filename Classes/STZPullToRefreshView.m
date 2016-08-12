@@ -23,6 +23,7 @@
     if (self) {
         self.refreshBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, frame.size.height)];
         self.progressColor = [UIColor colorWithRed:22.f / 255.f green:126.f / 255.f blue:251.f / 255.f alpha:1.0];
+		self.backgroundColor = [UIColor clearColor];
         [self addSubview:self.refreshBarView];
     }
     return self;
