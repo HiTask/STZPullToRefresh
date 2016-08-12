@@ -24,9 +24,9 @@
     STZPullToRefreshView *refreshView = [[STZPullToRefreshView alloc] initWithFrame:CGRectMake(0, refreshBarY, self.view.frame.size.width, 3)];
     [self.view addSubview:refreshView];
 
-    self.pullToRefresh = [[STZPullToRefresh alloc] initWithTableView:self.tableView
+    self.pullToRefresh = [[STZPullToRefresh alloc] initWithScrollView:self.tableView
                                                          refreshView:refreshView
-                                                   tableViewDelegate:self];
+                                                   scrollViewDelegate:self];
     self.tableView.delegate = self.pullToRefresh;
     self.pullToRefresh.delegate = self;
 
