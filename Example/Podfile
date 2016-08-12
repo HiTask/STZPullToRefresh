@@ -1,1 +1,3 @@
-pod "STZPullToRefresh", :path => "../"
+target 'Example' do
+	pod "STZPullToRefresh", :path => "../"
+end
