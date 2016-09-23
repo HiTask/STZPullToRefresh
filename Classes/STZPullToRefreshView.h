@@ -35,7 +35,7 @@
 /**
  Set the progress of refresh bar.
  
- @param progress Progress of refresh bar.
+ @param progress Progress of refresh bar, from 0 to 1.0.
  */
 - (void)setRefreshBarProgress:(CGFloat)progress;
 

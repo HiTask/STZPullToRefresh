@@ -33,16 +33,16 @@
 {
     self.refreshBarView.backgroundColor = self.progressColor;
     CGRect frame = self.refreshBarView.frame;
-    CGFloat x = (self.frame.size.width / 2) - (progress / 2);
-    frame.size.width = progress;
-    frame.origin.x = x;
+    frame.size.width = self.frame.size.width * MIN(1.0, MAX(0.0, progress));
+	// evaluates x in order to place refreshBarView centered.
+    frame.origin.x = (self.frame.size.width / 2) - (frame.size.width / 2);
     self.refreshBarView.frame = frame;
 }
 
 - (BOOL)isProgressFull
 {
     CGFloat width = self.refreshBarView.frame.size.width;
-    return width > self.frame.size.width;
+    return width >= self.frame.size.width;
 }
 
 - (void)startRefresh

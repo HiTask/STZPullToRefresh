@@ -22,7 +22,8 @@
 
 @implementation STZPullToRefresh
 
-static CGFloat const kPregoressWeight = 1.2;
+// defines how long it is needed to pan in order to initiate refreshing.
+static CGFloat const kPannedScreenHeightPartToRefresh = 0.5;
 
 - (id)initWithScrollView:(UIScrollView *)scrollView refreshView:(STZPullToRefreshView *)refreshView
 {
@@ -75,7 +76,9 @@ static CGFloat const kPregoressWeight = 1.2;
     }
 
     if (location.y > 0 && self.isScrollTopPosition && (self.isScrollDragging || self.scrollView.contentSize.height <= self.scrollView.bounds.size.height)) {
-        [self.refreshView setRefreshBarProgress:location.y * kPregoressWeight];
+		// evaluates progress according to panned distance.
+		CGFloat progress = MIN(1.0, (location.y / (self.scrollView.bounds.size.height * kPannedScreenHeightPartToRefresh)));
+        [self.refreshView setRefreshBarProgress:progress];
         if (self.scrollingMax < location.y) {
             self.scrollingMax = location.y;
         }
